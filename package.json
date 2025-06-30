@@ -1,0 +1,26 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikkoHolfeld88/battleGame.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MikkoHolfeld88/battleGame/issues"
+  },
+  "homepage": "https://github.com/MikkoHolfeld88/battleGame#readme",
+  "devDependencies": {
+    "@types/node": "^24.0.8",
+    "typescript": "^5.8.3"
+  }
+}
