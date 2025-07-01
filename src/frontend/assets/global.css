@@ -1,0 +1,19 @@
+/* Basic Reset & Global Styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #282c34; /* Dark background for now */
+  color: white;
+}
+
+#root {
+  padding: 20px;
+}
+
+h1 {
+  color: #61dafb; /* React blue for placeholder */
+}

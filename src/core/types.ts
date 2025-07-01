@@ -1,7 +1,13 @@
 export interface Player {
-  id: string;
-  username: string;
+  id: string; // This will be the Firebase UID
+  username: string; // Display name, can be separate from email
+  email: string; // Email used for auth
   elo: number;
+  profileImageUrl?: string;
+  // Timestamps managed by Firestore
+  createdAt?: any; // Firestore Timestamp or Date after fetch
+  updatedAt?: any; // Firestore Timestamp or Date after fetch
+  lastLoginAt?: any; // Firestore Timestamp or Date after fetch
   // Add other player-specific data here in the future
 }
 
