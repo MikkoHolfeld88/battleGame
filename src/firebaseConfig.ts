@@ -1,5 +1,5 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth"; // EmailAuthProvider is not needed here for direct use
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -8,15 +8,12 @@ const firebaseConfig = {
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID, // Optional
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL, // If using Realtime Database
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
 };
 
-// Initialize Firebase App (prevent re-initialization)
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-// You can customize GoogleAuthProvider here if needed, e.g.
-// googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export { app, auth, googleProvider };
