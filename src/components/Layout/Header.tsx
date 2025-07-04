@@ -145,6 +145,10 @@ const Header: React.FC = () => {
   };
 
   const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (event && event.defaultPrevented) {
+      return; // Ignore the event if it has already been handled
+    }
+
     if (reason === 'clickaway') {
       return;
     }

@@ -18,13 +18,13 @@ interface PhaseCardProps {
 }
 
 const PhaseCard: React.FC<PhaseCardProps> = ({
-     phaseNumber,
-     title,
-     description,
-     imageUrl,
-     imageUrls,
-     imageAlt,
- }) => {
+                                                 phaseNumber,
+                                                 title,
+                                                 description,
+                                                 imageUrl,
+                                                 imageUrls,
+                                                 imageAlt,
+                                             }) => {
     const images =
         imageUrls && imageUrls.length > 0
             ? imageUrls
@@ -33,7 +33,7 @@ const PhaseCard: React.FC<PhaseCardProps> = ({
                 : [];
 
     return (
-        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Card sx={{height: '100%', display: 'flex', flexDirection: 'column'}}>
             {images.length > 0 && (
                 <Box
                     sx={{
@@ -67,7 +67,7 @@ const PhaseCard: React.FC<PhaseCardProps> = ({
                 </Box>
             )}
 
-            <CardContent sx={{ flexGrow: 1 }}>
+            <CardContent sx={{flexGrow: 1}}>
                 <Typography gutterBottom variant="h3" component="div">
                     {title}
                 </Typography>
@@ -153,6 +153,7 @@ export const AllPhasesGrid: React.FC = () => {
             </Typography>
             <Grid container spacing={4}>
                 {phases.map((PhaseComponent, index) => (
+                    // @ts-ignore
                     <Grid item xs={12} sm={6} md={4} key={index}>
                         <PhaseComponent.component/>
                     </Grid>
