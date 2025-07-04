@@ -103,3 +103,4 @@ The aim is to build a game with features like:
 7.  Pixel-art/Stardew Valley-inspired UI styling.
 
 This codebase is evolving. The next phases will focus on expanding data structures and integrating core game logic with Firebase.
+

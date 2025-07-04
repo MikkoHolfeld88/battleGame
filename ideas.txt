@@ -1,0 +1,22 @@
+To 1: you start as a mini cell and crawl around in a wobbly slimy zone where planktons and small other microcells
+fly by that you can coincidentally hit, this might crush you hurt you or let you grow, with certain amounts of hits
+you grwo bigger and more sophisticaed and get into ither zones, over this involvment process you can add features to
+your creatures like sense, legs, arms, spikes and so on, this phase has a lot of sub phases that are not to be defined
+100% for now. But it should also make sure that in this phase you meet other online players who could eat or crush
+you and cobine with you. Its a mixture of spore and agar.io and minecreft regarding resource management. As you
+grow, the world around you grows as well in different phases, so that the way you gather changes and your
+resource management gets more complex, 2: its basically the window after you finished a phase or gather so
+much resources that you can update your creature, in a later phase you can always hit this window and modify or
+enlagre your creature. 3: the same resources you use on youre creature can later be used on weaopons as well,
+similar to little Alchemy mobile game but more adavaned in graphics, stat management and with a world of warcraft
+ feel to it, thnking about how you balance your creature stats and your weapon stats. 4: this is kind of a new feature
+ where you and your personal device and creature have to combine, so there is a physics engine that allows for
+ certain moves you can programm. YOu have a set ot allowed points for gravity crushing, air resistnace, movenemt
+ points, sterngth and so on (created by your gathering) and then you can use those to say when i press this
+  button my left third arm can move with a speed of this , beacuse its mass is this and the air resistance
+  is this and so on, you basically set up your character and your attacks or defense mechanisms by your sef,
+   what usually a game engineer does when he sets up a character for a video game. 5: Training i havent
+   thought out yet but it is an offline mode where you can test your skills on certain bot levels, 6 the main
+    game is like brawlhalla or tekken with match making in differnt mdes 1:1, 2:2, tournament and so on and
+    you can fight other creatures. The Whole Idea of the game is comparable to thosse real life robot fights,
+     but here in a way with more possibilites.
