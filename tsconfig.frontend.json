@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json", // Inherit from the base tsconfig.json
+  "compilerOptions": {
+    "outDir": "dist_frontend", // Separate output directory for frontend if tsc were to emit (Vite handles actual bundling)
+    "rootDir": "src/frontend",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // Libs specific to browser environment
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler", // Important for Vite and modern module resolution
+    "allowImportingTsExtensions": true, // Allows importing .ts files in Vite
+    "resolveJsonModule": true,
+    "isolatedModules": true, // Required by Vite
+    "noEmit": true, // Vite handles the build; tsc is just for type checking frontend
+    "baseUrl": ".", // Ensure paths are resolved correctly relative to this config
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/frontend", "vite.config.ts"], // Files to include for type checking
+  "references": [{ "path": "./tsconfig.backend.json" }] // Optional: if frontend ever needs to reference backend types directly (less common)
+}
