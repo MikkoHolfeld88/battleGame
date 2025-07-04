@@ -2,12 +2,103 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" /> <!-- We can change this later -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <title>BattleGame - Development Diary</title>
+    <link rel="stylesheet" href="/src/index.css"> <!-- Link to main CSS file -->
+    <link rel="stylesheet" href="/src/landing-page.css"> <!-- Specific CSS for landing page -->
   </head>
   <body>
-    <div id="root"></div>
+    <header id="main-header">
+      <div class="container">
+        <h1>BattleGame</h1>
+        <nav id="main-nav">
+          <ul>
+            <li><button id="login-google-btn">Login with Google</button></li>
+            <li><button id="login-email-btn">Login/Sign Up with Email</button></li>
+            <!-- User info will be displayed here after login -->
+            <li id="user-info" style="display: none;">
+              <span id="user-display-name"></span>
+              <button id="logout-btn">Logout</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="hero">
+        <div class="container">
+          <h2>Welcome to the BattleGame Development Diary!</h2>
+          <p>Follow the journey of creating an epic 2D creature battler.</p>
+          <!-- Maybe a call to action or a prominent image here -->
+        </div>
+      </section>
+
+      <section id="game-phases">
+        <div class="container">
+          <h2>The Journey of a Creature</h2>
+          <div class="phase" id="phase-1">
+            <h3>Phase 1: Gathering Resources</h3>
+            <img src="placeholder_phase1.png" alt="Pixel art concept of resource gathering" class="phase-image">
+            <p>Start as a humble cell in a vibrant, wobbly world teeming with life and danger. Consume plankton and microcells to grow, but beware – other players might see you as a snack or a threat! Every interaction can lead to growth, injury, or even absorption. As you evolve, so does the world, presenting new challenges and more complex resource management. It's a unique blend of Spore's evolution, Agar.io's survival, and Minecraft's resourcefulness.</p>
+          </div>
+          <div class="phase" id="phase-2">
+            <h3>Phase 2: Growing and Forming Your Creature</h3>
+            <img src="placeholder_phase2.png" alt="Pixel art concept of creature evolution screen" class="phase-image">
+            <p>Evolution is key. After gathering sufficient resources or reaching milestones, enter the evolution chamber. Here, you'll strategically add features to your creature – senses, limbs, armor, spikes, and more. This isn't a one-time event; you can revisit this phase to adapt and enhance your creature as you progress and unlock new possibilities.</p>
+          </div>
+          <div class="phase" id="phase-3">
+            <h3>Phase 3: Creating Weapons</h3>
+            <img src="placeholder_phase3.png" alt="Pixel art concept of weapon crafting interface" class="phase-image">
+            <p>The same fundamental resources that fuel your creature's growth can be forged into powerful weapons. Dive into an advanced crafting system, reminiscent of Little Alchemy but with deep stat management and a World of Warcraft-esque feel for balancing your creature's innate abilities with its equipped arsenal. Every weapon choice impacts your combat style.</p>
+          </div>
+          <div class="phase" id="phase-4">
+            <h3>Phase 4: Teaching Movement & Attacks</h3>
+            <img src="placeholder_phase4.png" alt="Pixel art concept of attack programming interface" class="phase-image">
+            <p>This is where you become the game engineer. Define your creature's every move. Utilizing a sophisticated physics engine, you'll allocate points (earned through gathering) to parameters like gravity influence, air resistance, movement speed, and strength. Then, map these to your device's inputs. Program the exact arc of a swing, the force of a pounce, or the intricacies of a defensive stance. Your creativity in programming directly translates to your creature's effectiveness.</p>
+          </div>
+          <div class="phase" id="phase-5">
+            <h3>Phase 5: Training</h3>
+            <img src="placeholder_phase5.png" alt="Pixel art concept of a training dummy" class="phase-image">
+            <p>Hone your skills and test your creature's programmed abilities in a dedicated offline training mode. Face off against various AI-controlled bots across different challenge levels. This is the perfect space to experiment with new movement programs, weapon combinations, and combat strategies before heading into live battles. (More details on training mode coming soon!)</p>
+          </div>
+          <div class="phase" id="phase-6">
+            <h3>Phase 6: Online Battles</h3>
+            <img src="placeholder_phase6.png" alt="Pixel art concept of an online battle scene" class="phase-image">
+            <p>The ultimate test! Engage in thrilling online battles against other players and their unique creatures. With a matchmaking system inspired by Brawlhalla and Tekken, you can expect intense 1v1 duels, chaotic 2v2 team fights, and structured tournaments. Rise through the ranks and prove your creature is the ultimate champion. It's like real-life robot fights, but with boundless creative possibilities!</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="dev-blog">
+        <div class="container">
+          <h2>Latest News & Updates</h2>
+          <article class="blog-post">
+            <h4>October 26, 2023: Project Kick-off!</h4>
+            <p>Welcome to the first update! We're excited to start this journey and build BattleGame. The core concepts are laid out, and we're beginning to prototype the initial cell phase. Stay tuned for more updates as we bring these ideas to life!</p>
+            <!-- More posts will be added here -->
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer id="main-footer">
+      <div class="container">
+        <p>&copy; 2023 BattleGame. All Rights Reserved. (Development in Progress)</p>
+      </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <!-- These will be loaded by the firebase setup script -->
+    <!--
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js"></script>
+    -->
+
+    <!-- Main script for Firebase and page interactions -->
     <script type="module" src="/src/main.tsx"></script>
+    <!-- We will create a specific script for landing page logic, including auth -->
+    <script type="module" src="/src/landing-page.ts"></script>
   </body>
 </html>
