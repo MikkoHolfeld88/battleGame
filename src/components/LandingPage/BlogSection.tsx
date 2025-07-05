@@ -1,5 +1,6 @@
 import React from 'react';
 import {Box, Card, CardContent, Grid, Link, Typography} from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface BlogPost {
     id: string;
@@ -34,6 +35,20 @@ const blogPosts: BlogPost[] = [
 ];
 
 const BlogSection: React.FC = () => {
+    const { t } = useTranslation();
+
+    // Sample blog post data - this would ideally come from a CMS or backend
+    // For translation, titles and summaries would need to be keys or handled differently if dynamic
+    // For this example, I'll assume these specific blog posts are somewhat static content defined here.
+    // If they were from a CMS, the CMS content would need to be translated.
+    // Here, I will make their titles and summaries translatable using their IDs.
+    const translatedBlogPosts: BlogPost[] = blogPosts.map(post => ({
+        ...post,
+        title: t(`landingPage.blog.posts.${post.id}.title`, post.title),
+        summary: t(`landingPage.blog.posts.${post.id}.summary`, post.summary),
+    }));
+
+
     return (
         <Box sx={{
             my: 4,
@@ -42,11 +57,11 @@ const BlogSection: React.FC = () => {
             borderRadius: 1
         }}> {/* Light bg for section distinction */}
             <Typography variant="h2" component="h2" gutterBottom sx={{textAlign: 'center', mb: 4}}>
-                Latest News & Updates
+                {t('landingPage.blog.title')}
             </Typography>
             <Grid container spacing={4} justifyContent="center">
-                {blogPosts.length > 0 ? (
-                    blogPosts.map((post) => (
+                {translatedBlogPosts.length > 0 ? (
+                    translatedBlogPosts.map((post) => (
 
                         // @ts-ignore
                         <Grid item xs={12} md={8} key={post.id}> {/* Making blog posts wider */}
@@ -57,7 +72,8 @@ const BlogSection: React.FC = () => {
                                     </Typography>
                                     <Typography variant="caption" display="block" color="text.secondary" gutterBottom
                                                 sx={{fontFamily: "'VT323', monospace"}}>
-                                        {post.date}
+                                        {/* Date formatting might need localization if not already a localized string */}
+                                        {t('landingPage.blog.posts.dateFormat', { date: new Date(post.date) })}
                                     </Typography>
                                     <Typography variant="body1" paragraph>
                                         {post.summary}
@@ -65,7 +81,7 @@ const BlogSection: React.FC = () => {
                                     {post.link && (
                                         <Link href={post.link} underline="hover"
                                               sx={{fontFamily: "'Press Start 2P', cursive", fontSize: '0.9rem'}}>
-                                            Read More
+                                            {t('landingPage.blog.readMore')}
                                         </Link>
                                     )}
                                 </CardContent>
@@ -74,7 +90,7 @@ const BlogSection: React.FC = () => {
                     ))
                 ) : (
                     <Typography sx={{textAlign: 'center', width: '100%'}}>
-                        No blog posts yet. Check back soon for updates!
+                        {t('landingPage.blog.noPosts')}
                     </Typography>
                 )}
             </Grid>

@@ -2,9 +2,12 @@ import React from 'react';
 import { Container, Box, Typography, Paper } from '@mui/material';
 import Header from '../../components/Layout/Header';
 import { AllPhasesGrid } from '../../components/LandingPage/Phases/PhaseCard'; // Import the grid component
+import { useTranslation } from 'react-i18next';
 import BlogSection from '../../components/LandingPage/BlogSection';
 
 const LandingPage: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
       <Header />
@@ -26,10 +29,10 @@ const LandingPage: React.FC = () => {
       >
         <Container maxWidth="md">
           <Typography variant="h1" component="h1" gutterBottom sx={{fontSize: {xs: '2.5rem', md: '3.5rem'}}}>
-            BattleGame
+            {t('landingPage.hero.title')}
           </Typography>
           <Typography variant="h5" component="p" sx={{fontFamily: "'VT323', monospace", fontSize: {xs: '1.2rem', md: '1.5rem'}}}>
-            Follow the journey of creating an epic 2D creature battler. From single cell to ultimate champion!
+            {t('landingPage.hero.subtitle')}
           </Typography>
         </Container>
       </Paper>
@@ -42,9 +45,7 @@ const LandingPage: React.FC = () => {
       <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto', backgroundColor: 'background.paper', borderTop: '2px solid #ddd' }}>
         <Container maxWidth="lg">
           <Typography variant="body2" color="text.secondary" align="center" sx={{fontFamily: "'VT323', monospace"}}>
-            {'© '}
-            {new Date().getFullYear()}
-            {' BattleGame. Development in Progress.'}
+            {t('landingPage.footer.copyright', { year: new Date().getFullYear() })}
           </Typography>
         </Container>
       </Box>
