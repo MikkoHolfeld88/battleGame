@@ -75,7 +75,7 @@ const PhaseCard: React.FC<PhaseCardProps> = ({
                 <Typography gutterBottom variant="h3" component="div">
                     {title}
                 </Typography>
-                <Typography variant="h4" color="text.secondary" mt={2}>
+                <Typography variant="h6" color="text.secondary" mt={2}>
                     {description}
                 </Typography>
             </CardContent>
