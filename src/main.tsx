@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter
 import { store } from './store/store';
 import App from './App';
 import './index.css';
@@ -16,10 +17,12 @@ const loadingMarkup = (
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Suspense fallback={loadingMarkup}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Suspense>
+    <Provider store={store}> {/* Provider can be inside or outside Suspense, usually outside is fine */}
+      <Suspense fallback={loadingMarkup}>
+        <BrowserRouter> {/* Wrap App with BrowserRouter */}
+          <App />
+        </BrowserRouter>
+      </Suspense>
+    </Provider>
   </React.StrictMode>,
 );
