@@ -210,7 +210,7 @@ const Header: React.FC = () => {
                 position="static"
                 color="transparent"
                 elevation={0}
-                sx={{ borderBottom: '3px solid #333' }}
+                sx={{ borderBottom: '3px solid #333'}}
             >
                 <Toolbar
                     sx={{

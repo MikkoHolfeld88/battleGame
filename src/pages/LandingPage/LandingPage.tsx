@@ -9,7 +9,7 @@ const LandingPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default', marginTop: "20px" }} >
       <Header />
 
       {/* Hero Section - Simple version using Paper and Typography */}
