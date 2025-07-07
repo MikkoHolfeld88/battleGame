@@ -28,7 +28,7 @@ const LandingPage: React.FC = () => {
         }}
       >
         <Container maxWidth="md">
-          <Typography variant="h1" component="h1" gutterBottom sx={{fontSize: {xs: '2.5rem', md: '3.5rem'}}}>
+          <Typography variant="h6" component="h6" gutterBottom sx={{fontSize: {xs: '2.5rem', md: '3.5rem'}}}>
             {t('landingPage.hero.title')}
           </Typography>
           <Typography variant="h5" component="p" sx={{fontFamily: "'VT323', monospace", fontSize: {xs: '1.2rem', md: '1.5rem'}}}>
@@ -38,6 +38,9 @@ const LandingPage: React.FC = () => {
       </Paper>
 
       <Container component="main" sx={{ flexGrow: 1, py: { xs: 3, md: 5 } }}>
+          <Typography variant="h3" component="p" sx={{fontWeight: "light", color: "grey"}}>
+              {t('landingPage.phases.header')}
+          </Typography>
         <AllPhasesGrid /> {/* This component already has its own title and padding */}
         <BlogSection />   {/* This component also has its own title and padding */}
       </Container>

@@ -62,5 +62,7 @@
   "landingPage.phases.phase5.imageAlt": "Pixel-Art-Bild einer Kreatur in einer Trainingsumgebung, das Phase 5 darstellt: Training.",
   "landingPage.phases.phase6.title": "Phase 6: Online-Kämpfe",
   "landingPage.phases.phase6.description": "Der ultimative Test! Nimm an spannenden Online-Kämpfen gegen andere Spieler und ihre einzigartigen Kreaturen teil. Mit einem Matchmaking-System, das von Brawlhalla und Tekken inspiriert ist, erwarten dich intensive 1-gegen-1-Duelle, chaotische 2-gegen-2-Teamkämpfe und strukturierte Turniere. Steige in den Rängen auf und beweise, dass deine Kreatur der ultimative Champion ist. Es ist wie Roboterkämpfe im echten Leben, aber mit grenzenlosen kreativen Möglichkeiten!",
-  "landingPage.phases.phase6.imageAlt": "Pixel-Art-Bild von Kreaturen, die online kämpfen und Phase 6 darstellen: Online-Kämpfe."
+  "landingPage.phases.phase6.imageAlt": "Pixel-Art-Bild von Kreaturen, die online kämpfen und Phase 6 darstellen: Online-Kämpfe.",
+  "landingPage.phases.header": "Übersicht Spielphasen"
+
 }

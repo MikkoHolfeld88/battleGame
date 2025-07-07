@@ -19,13 +19,13 @@ interface PhaseCardProps {
 }
 
 const PhaseCard: React.FC<PhaseCardProps> = ({
-                                                 phaseNumber,
-                                                 title,
-                                                 description,
-                                                 imageUrl,
-                                                 imageUrls,
-                                                 imageAlt,
-                                             }) => {
+     phaseNumber,
+     title,
+     description,
+     imageUrl,
+     imageUrls,
+     imageAlt,
+ }) => {
     const { t } = useTranslation(); // Initialize useTranslation
     const images =
         imageUrls && imageUrls.length > 0
@@ -72,7 +72,7 @@ const PhaseCard: React.FC<PhaseCardProps> = ({
             )}
 
             <CardContent sx={{flexGrow: 1}}>
-                <Typography gutterBottom variant="h3" component="div">
+                <Typography gutterBottom variant="h4" component="div">
                     {title}
                 </Typography>
                 <Typography variant="h6" color="text.secondary" mt={2}>

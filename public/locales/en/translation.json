@@ -62,5 +62,6 @@
   "landingPage.phases.phase5.imageAlt": "Pixel art image of a creature in a training environment, representing Phase 5: Training.",
   "landingPage.phases.phase6.title": "Phase 6: Online Battles",
   "landingPage.phases.phase6.description": "The ultimate test! Engage in thrilling online battles against other players and their unique creatures. With a matchmaking system inspired by Brawlhalla and Tekken, you can expect intense 1v1 duels, chaotic 2v2 team fights, and structured tournaments. Rise through the ranks and prove your creature is the ultimate champion. It's like real-life robot fights, but with boundless creative possibilities!",
-  "landingPage.phases.phase6.imageAlt": "Pixel art image of creatures battling online, representing Phase 6: Online Battles."
+  "landingPage.phases.phase6.imageAlt": "Pixel art image of creatures battling online, representing Phase 6: Online Battles.",
+  "landingPage.phases.header": "Overview Gamephases"
 }

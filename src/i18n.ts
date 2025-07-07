@@ -6,13 +6,13 @@ import HttpApi from 'i18next-http-backend';
 export const supportedLngs = { // Ensure this is exported
   en: 'English',
   de: 'Deutsch',
-  it: 'Italiano',
-  fr: 'Français',
-  es: 'Español',
-  ru: 'Русский',
-  da: 'Dansk',
-  sv: 'Svenska',
-  pl: 'Polski',
+  // it: 'Italiano',
+  // fr: 'Français',
+  // es: 'Español',
+  // ru: 'Русский',
+  // da: 'Dansk',
+  // sv: 'Svenska',
+  // pl: 'Polski',
 };
 
 i18n
