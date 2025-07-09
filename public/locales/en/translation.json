@@ -29,6 +29,7 @@
   "error.general": "Error: {{message}}",
 
   "landingPage.hero.title": "BattleGame",
+  "landingPage.hero.playingNow": "Start Playing!",
   "landingPage.hero.subtitle": "Follow the journey of creating an epic 2D creature battler. From single cell to ultimate champion!",
   "landingPage.footer.copyright": "© {{year}} BattleGame. Development in Progress.",
 
