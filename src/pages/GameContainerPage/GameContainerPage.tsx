@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Modal, Typography, Button, Paper } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { GAME_START_PATH } from '../../routes'; // Or HOME_PATH depending on final structure
+import { GAME_START_PATH } from '../../routes';
 
 const modalStyle = {
   position: 'absolute' as 'absolute',
@@ -21,10 +21,10 @@ const GameContainerPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isPaused, setIsPaused] = useState(false);
-  const gameCanvasRef = useRef<HTMLDivElement>(null); // Ref for the game area for fullscreen
+  const gameCanvasRef = useRef<HTMLDivElement>(null);
 
   const requestFullscreen = useCallback(() => {
-    const element = gameCanvasRef.current; // Or document.documentElement for the whole page
+    const element = gameCanvasRef.current;
     if (element) {
       if (element.requestFullscreen) {
         element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
@@ -50,10 +50,8 @@ const GameContainerPage: React.FC = () => {
     }
   }, []);
 
-  // Attempt to go fullscreen on component mount
   useEffect(() => {
     requestFullscreen();
-    // Cleanup function to exit fullscreen when component unmounts or before navigating away
     return () => {
       if (document.fullscreenElement) {
         exitFullscreen();
@@ -65,71 +63,76 @@ const GameContainerPage: React.FC = () => {
     setIsPaused(false);
     // TODO: Add game loop resume logic here
     console.log("Game resumed");
-    requestFullscreen(); // Re-enter fullscreen if exited due to modal or other reasons
+    requestFullscreen();
   };
 
   const handleQuitGame = () => {
     setIsPaused(false);
     // TODO: Add any game cleanup logic here
     console.log("Quitting game");
-    exitFullscreen(); // Ensure fullscreen is exited before navigating
+    if (document.fullscreenElement) { // Only exit if currently in fullscreen
+      exitFullscreen();
+    }
     navigate(GAME_START_PATH);
   };
 
-  // Handle ESC key press for pausing
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        // If game is running and ESC is pressed, pause it.
-        // If game is already paused (modal is open), ESC might close the modal (browser default for some modals, or handle manually)
-        // For simplicity, we'll just toggle pause state.
-        // Browsers automatically exit fullscreen when an alert, prompt, or confirm dialog is shown.
-        // Our modal is part of the page, so it won't inherently exit fullscreen.
-        // However, user expectation for ESC is often to exit fullscreen first, then pause.
-        // If already in fullscreen and not paused, pause.
         if (document.fullscreenElement && !isPaused) {
           setIsPaused(true);
           // TODO: Add game loop pause logic here
-          console.log("Game paused via ESC key");
-          // Note: We don't exit fullscreen here, modal will overlay.
-          // If desired to exit fullscreen on pause: exitFullscreen();
-        } else if (!document.fullscreenElement && isPaused) {
-          // If not in fullscreen but paused (e.g., user manually exited FS then pressed ESC again)
-          // This case might be complex, for now, let's assume ESC on modal means resume or is handled by modal buttons.
-        } else if (!document.fullscreenElement && !isPaused) {
-            // If not in fullscreen and not paused, and ESC is pressed,
-            // this might mean the user wants to go back or pause if game was "running" without FS.
-            // For now, we'll assume the game is only "active" in fullscreen.
+          console.log("Game paused via ESC key (while in fullscreen)");
+        } else if (isPaused) {
+          // If already paused (modal is open), ESC could be interpreted as "Resume"
+          // For simplicity, let modal buttons handle resume/quit.
+          // Or, uncomment to make ESC resume:
+          // handleResumeGame();
         }
+        // Note: Browser itself handles ESC to exit fullscreen.
+        // If not in fullscreen, ESC does not trigger pause here by default.
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
+    const fullscreenChangeHandler = () => {
+        // If exiting fullscreen and the game was paused, perhaps unpause or decide behavior.
+        // For now, if modal is open due to ESC in fullscreen, it remains open.
+        if (!document.fullscreenElement && isPaused) {
+            console.log("Exited fullscreen, game is still paused.");
+        }
+    };
+    document.addEventListener('fullscreenchange', fullscreenChangeHandler);
+    document.addEventListener('webkitfullscreenchange', fullscreenChangeHandler);
+    document.addEventListener('mozfullscreenchange', fullscreenChangeHandler);
+    document.addEventListener('MSFullscreenChange', fullscreenChangeHandler);
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('fullscreenchange', fullscreenChangeHandler);
+      document.removeEventListener('webkitfullscreenchange', fullscreenChangeHandler);
+      document.removeEventListener('mozfullscreenchange', fullscreenChangeHandler);
+      document.removeEventListener('MSFullscreenChange', fullscreenChangeHandler);
     };
-  }, [isPaused, exitFullscreen]); // Add exitFullscreen to dependencies if used in handler
-
-  // Hide header/footer if they are part of a global layout.
-  // This is often better handled by having a separate layout for the game container page.
-  // For now, we'll assume this page is rendered without typical site chrome.
+  }, [isPaused, exitFullscreen, handleResumeGame]); // Added handleResumeGame if used by ESC
 
   return (
     <Box
       ref={gameCanvasRef}
       sx={{
-        width: '100vw',
-        height: '100vh',
-        bgcolor: 'black', // Game background
+        width: '100%', // Use 100% to fill parent width; avoids vw issues with scrollbars
+        height: '100vh', // Fills viewport height. Assumes no vertical scroll on body for this page.
+                         // Or use height: '100%' if html, body, #root are set to height: 100%
+        bgcolor: 'black',
         color: 'white',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        cursor: isPaused ? 'default' : 'none' // Hide cursor when game is active
+        overflow: 'hidden', // Prevent scrollbars within the game container itself
+        cursor: isPaused ? 'default' : 'none'
       }}
     >
-      {/* This is where the actual game canvas or components would go */}
       <Typography variant="h2">
         {t('gameContainerPage.gameAreaTitle', 'Game Area')}
       </Typography>
@@ -140,17 +143,13 @@ const GameContainerPage: React.FC = () => {
         {t('gameContainerPage.fullscreenInfo', 'Press ESC to pause.')}
       </Typography>
 
-      {/* Pause Modal */}
       <Modal
         open={isPaused}
         onClose={(event, reason) => {
-          // Prevent closing modal by clicking backdrop or pressing ESC if we want explicit button actions
           if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
-            // Optionally, allow ESC to close modal and resume:
-            // handleResumeGame();
             return;
           }
-          handleResumeGame(); // Default behavior if not prevented
+          handleResumeGame();
         }}
         aria-labelledby="pause-modal-title"
         aria-describedby="pause-modal-description"
@@ -162,9 +161,6 @@ const GameContainerPage: React.FC = () => {
           <Typography id="pause-modal-description" sx={{ mb: 3 }}>
             {t('gameContainerPage.pauseModal.description', 'The game is currently paused. What would you like to do?')}
           </Typography>
-          {/* Placeholder for game state information if needed */}
-          {/* <Typography variant="body2" sx={{mb:2}}>Score: 12345</Typography> */}
-
           <Box sx={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
             <Button variant="contained" color="primary" onClick={handleResumeGame} sx={{minWidth: '120px'}}>
               {t('gameContainerPage.pauseModal.resumeButton', 'Resume')}

@@ -2,7 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Typography, Container, Paper, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { GAME_CONTAINER_PATH } from '../../routes'; // Assuming routes.ts is in src
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebaseConfig';
+import { GAME_CONTAINER_PATH, LOGIN_PATH } from '../../routes';
+import { useDispatch } from 'react-redux';
+import { showSnackbar } from '../../store/slices/snackbarSlice';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 // Placeholder images - replace with actual paths or import statements if available
 const placeholderImage1 = 'https://via.placeholder.com/300x200.png?text=Exciting+Game+Scene+1';
@@ -11,15 +16,45 @@ const placeholderImage2 = 'https://via.placeholder.com/300x200.png?text=Game+Fea
 const GameStartPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const handleStartGame = () => {
     navigate(GAME_CONTAINER_PATH);
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      dispatch(showSnackbar({
+        title: t('snackbar.logoutSuccessTitle', 'Logged Out'),
+        message: t('snackbar.logoutSuccessMessage', 'You have been successfully logged out.'),
+        severity: 'success'
+      }));
+      navigate(LOGIN_PATH, { replace: true });
+    } catch (error: any) {
+      console.error("Logout Error:", error);
+      dispatch(showSnackbar({
+        title: t('snackbar.logoutErrorTitle', 'Logout Failed'),
+        message: error.message || t('snackbar.logoutErrorMessage', 'An error occurred during logout.'),
+        severity: 'error'
+      }));
+    }
+  };
+
   return (
     <Container component="main" maxWidth="md" sx={{ mt: 8, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="h3" component="h1" gutterBottom sx={{ textAlign: 'center' }}>
+      <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          startIcon={<LogoutIcon />}
+          onClick={handleLogout}
+          sx={{ position: 'absolute', top: 16, right: 16 }}
+        >
+          {t('gameStartPage.logoutButton', 'Logout')}
+        </Button>
+
+        <Typography variant="h3" component="h1" gutterBottom sx={{ textAlign: 'center', mt: 2 }}> {/* Added mt for spacing from logout button */}
           {t('gameStartPage.title', 'Welcome to the Game!')}
         </Typography>
 

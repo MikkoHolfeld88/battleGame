@@ -63,6 +63,32 @@
   "landingPage.phases.phase6.title": "Phase 6: Online-Kämpfe",
   "landingPage.phases.phase6.description": "Der ultimative Test! Nimm an spannenden Online-Kämpfen gegen andere Spieler und ihre einzigartigen Kreaturen teil. Mit einem Matchmaking-System, das von Brawlhalla und Tekken inspiriert ist, erwarten dich intensive 1-gegen-1-Duelle, chaotische 2-gegen-2-Teamkämpfe und strukturierte Turniere. Steige in den Rängen auf und beweise, dass deine Kreatur der ultimative Champion ist. Es ist wie Roboterkämpfe im echten Leben, aber mit grenzenlosen kreativen Möglichkeiten!",
   "landingPage.phases.phase6.imageAlt": "Pixel-Art-Bild von Kreaturen, die online kämpfen und Phase 6 darstellen: Online-Kämpfe.",
-  "landingPage.phases.header": "Übersicht Spielphasen"
+  "landingPage.phases.header": "Übersicht Spielphasen",
 
+  "gameStartPage.title": "Willkommen zum Spiel!",
+  "gameStartPage.intro": "Mach dich bereit für ein aufregendes Abenteuer. Klicke auf den Button unten, um deine Reise zu beginnen.",
+  "gameStartPage.startGameButton": "Spiel starten",
+  "gameStartPage.logoutButton": "Ausloggen",
+  "gameStartPage.imageAlt1": "Aufregende Spielszene",
+  "gameStartPage.imageCaption1": "Erkunde riesige Welten und entdecke Geheimnisse.",
+  "gameStartPage.imageAlt2": "Highlight eines Spiel-Features",
+  "gameStartPage.imageCaption2": "Meistere einzigartige Fähigkeiten und Herausforderungen.",
+  "gameStartPage.footerNote": "Stelle sicher, dass du eine stabile Internetverbindung für das beste Erlebnis hast.",
+
+  "gameContainerPage.gameAreaTitle": "Spielbereich",
+  "gameContainerPage.gameAreaInstructions": "Dein Spiel wird hier gerendert.",
+  "gameContainerPage.fullscreenInfo": "Drücke ESC zum Pausieren.",
+  "gameContainerPage.pauseModal.title": "Spiel pausiert",
+  "gameContainerPage.pauseModal.description": "Das Spiel ist derzeit pausiert. Was möchtest du tun?",
+  "gameContainerPage.pauseModal.resumeButton": "Fortsetzen",
+  "gameContainerPage.pauseModal.quitButton": "Zum Menü",
+
+  "snackbar.loginSuccessTitle": "Anmeldung erfolgreich",
+  "snackbar.loginSuccessMessage": "Willkommen zurück, {{userName}}!",
+  "snackbar.loginErrorTitle": "Anmeldung fehlgeschlagen",
+  "snackbar.loginErrorMessage": "{{errorMessage}}",
+  "snackbar.logoutSuccessTitle": "Abgemeldet",
+  "snackbar.logoutSuccessMessage": "Du wurdest erfolgreich abgemeldet.",
+  "snackbar.logoutErrorTitle": "Abmeldung fehlgeschlagen",
+  "snackbar.logoutErrorMessage": "Während der Abmeldung ist ein Fehler aufgetreten. {{errorMessage}}"
 }
