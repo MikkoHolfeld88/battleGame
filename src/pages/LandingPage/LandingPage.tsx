@@ -6,6 +6,7 @@ import {useTranslation} from 'react-i18next';
 import BlogSection from '../../components/LandingPage/BlogSection';
 import {useNavigate} from "react-router-dom";
 import {GAME_START_PATH} from "../../routes";
+import Footer from '../../components/Layout/Footer'; // Import the new Footer component
 
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();
@@ -68,15 +69,7 @@ const LandingPage: React.FC = () => {
                 <BlogSection/> {/* This component also has its own title and padding */}
             </Container>
 
-            <Box component="footer"
-                 sx={{py: 3, px: 2, mt: 'auto', backgroundColor: 'background.paper', borderTop: '2px solid #ddd'}}>
-                <Container maxWidth="lg">
-                    <Typography variant="body2" color="text.secondary" align="center"
-                                sx={{fontFamily: "'VT323', monospace"}}>
-                        {t('landingPage.footer.copyright', {year: new Date().getFullYear()})}
-                    </Typography>
-                </Container>
-            </Box>
+            <Footer />
         </Box>
     );
 };
