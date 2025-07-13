@@ -47,8 +47,12 @@ const modalStyle = {
     p: 4,
 };
 
+import { useMediaQuery, useTheme } from '@mui/material';
+
 const Header: React.FC = () => {
     const { t } = useTranslation();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [openAuthModal, setOpenAuthModal] = useState(false);
@@ -300,33 +304,33 @@ const Header: React.FC = () => {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    startIcon={<GoogleIcon />}
                                     onClick={handleGoogleSignIn}
                                     disabled={authLoading}
                                     sx={{
                                         mr: { xs: 0, sm: 1 },
                                         mb: { xs: 1, sm: 0 },
                                         width: { xs: '100%', sm: 'auto' },
+                                        minWidth: 'auto',
                                         fontSize: { xs: '0.75rem', sm: '0.875rem' },
                                         py: { xs: 0.8, sm: 1 },
                                     }}
                                 >
-                                    {t('header.googleSignIn')}
+                                    {isMobile ? <GoogleIcon /> : t('header.googleSignIn')}
                                 </Button>
 
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    startIcon={<EmailIcon />}
                                     onClick={() => handleOpenAuthModal(true)}
                                     disabled={authLoading}
                                     sx={{
                                         width: { xs: '100%', sm: 'auto' },
+                                        minWidth: 'auto',
                                         fontSize: { xs: '0.75rem', sm: '0.875rem' },
                                         py: { xs: 0.8, sm: 1 },
                                     }}
                                 >
-                                    {t('header.emailSignIn')}
+                                    {isMobile ? <EmailIcon /> : t('header.emailSignIn')}
                                 </Button>
                             </Box>
                         )}

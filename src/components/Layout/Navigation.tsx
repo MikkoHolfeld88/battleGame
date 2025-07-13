@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Box, Button, useTheme, useMediaQuery } from '@mui/material';
+import { Box, Button, useTheme, useMediaQuery, SvgIcon } from '@mui/material';
+import { Home, Book, Info, SportsEsports } from '@mui/icons-material';
 import { HOME_PATH, BLOG_BASE_PATH, ABOUT_US_PATH, GAME_CONTAINER_PATH } from '../../routes';
 
 const Navigation: React.FC = () => {
@@ -10,9 +11,9 @@ const Navigation: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const navLinks = [
-    { to: HOME_PATH, text: t('nav.home') },
-    { to: BLOG_BASE_PATH, text: t('nav.blog') },
-    { to: ABOUT_US_PATH, text: t('nav.aboutUs') },
+    { to: HOME_PATH, text: t('nav.home'), icon: <Home /> },
+    { to: BLOG_BASE_PATH, text: t('nav.blog'), icon: <Book /> },
+    { to: ABOUT_US_PATH, text: t('nav.aboutUs'), icon: <Info /> },
   ];
 
   const commonNavStyles = {
@@ -21,6 +22,7 @@ const Navigation: React.FC = () => {
     '&.active': {
       textDecoration: 'underline',
     },
+    minWidth: 'auto',
   };
 
   const desktopNav = (
@@ -31,6 +33,7 @@ const Navigation: React.FC = () => {
           component={NavLink}
           to={link.to}
           sx={commonNavStyles}
+          startIcon={link.icon}
         >
           {link.text}
         </Button>
@@ -40,6 +43,7 @@ const Navigation: React.FC = () => {
         to={GAME_CONTAINER_PATH}
         variant="contained"
         color="primary"
+        startIcon={<SportsEsports />}
       >
         {t('nav.play')}
       </Button>
@@ -68,7 +72,7 @@ const Navigation: React.FC = () => {
           to={link.to}
           sx={commonNavStyles}
         >
-          {link.text}
+          {link.icon}
         </Button>
       ))}
       <Button
@@ -78,7 +82,7 @@ const Navigation: React.FC = () => {
         color="primary"
         size="small"
       >
-        {t('nav.play')}
+        <SportsEsports />
       </Button>
     </Box>
   );
