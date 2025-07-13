@@ -5,6 +5,7 @@ import { ArrowBack as ArrowBackIcon, Fullscreen as FullscreenIcon, FullscreenExi
 import { useTranslation } from 'react-i18next';
 import { GAME_START_PATH } from '../../routes';
 import Footer from '../../components/Layout/Footer'; // Import the reusable Footer
+import PhaserGame from '../../game/PhaserGame';
 
 const modalStyle = {
     position: 'absolute' as 'absolute',
@@ -25,6 +26,28 @@ const GameContainerPage: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [isFullscreenActive, setIsFullscreenActive] = useState(false); // State for our game canvas fullscreen
   const gameCanvasRef = useRef<HTMLDivElement>(null);
+  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        setCanvasSize({
+          width: entry.contentRect.width,
+          height: entry.contentRect.height,
+        });
+      }
+    });
+
+    if (gameCanvasRef.current) {
+      resizeObserver.observe(gameCanvasRef.current);
+    }
+
+    return () => {
+      if (gameCanvasRef.current) {
+        resizeObserver.unobserve(gameCanvasRef.current);
+      }
+    };
+  }, []);
 
     const requestFullscreen = useCallback(() => {
         const element = gameCanvasRef.current;
@@ -199,15 +222,7 @@ const GameContainerPage: React.FC = () => {
           cursor: isPaused ? 'default' : 'none'
         }}
       >
-        <Typography variant="h2">
-          {t('gameContainerPage.gameAreaTitle', 'Game Area')}
-        </Typography>
-        <Typography variant="body1" sx={{mt: 2}}>
-          {t('gameContainerPage.gameAreaInstructions', 'Your game will be rendered here.')}
-        </Typography>
-        <Typography variant="caption" sx={{mt: 1, color: 'grey.500'}}>
-          {t('gameContainerPage.fullscreenInfo', 'Press ESC to pause.')}
-        </Typography>
+        <PhaserGame width={canvasSize.width} height={canvasSize.height} />
       </Box>
 
       {/* Reusable Footer */}
