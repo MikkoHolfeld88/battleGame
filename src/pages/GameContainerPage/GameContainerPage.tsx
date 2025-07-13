@@ -126,6 +126,7 @@ const GameContainerPage: React.FC = () => {
     // gameCanvasRef.current might be technically needed if its identity could change, but unlikely for a useRef.
   }, [isPaused, gameCanvasRef]);
 
+  // @ts-ignore
   return (
     <Box
       sx={{
@@ -195,16 +196,7 @@ const GameContainerPage: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
-          cursor: isPaused ? 'default' : 'none',
-          // When isFullscreenActive, we want this Box to be the one taking the full screen
-          // The parent Box already has height: 100vh.
-          // If header/footer are hidden, this will naturally expand.
-          // If gameCanvasRef itself is the fullscreen element, its own styling will dictate.
-          // The `position: 'relative'` was for cases where children might be absolutely positioned,
-          -          // but for the fullscreen behavior of gameCanvasRef itself, it's less critical
--          // as the browser's fullscreen takes the element out of normal flow.
-+          // but for the fullscreen behavior of gameCanvasRef itself, it's less critical
-+          // as the browser's fullscreen takes the element out of normal flow.
+          cursor: isPaused ? 'default' : 'none'
         }}
       >
         <Typography variant="h2">
