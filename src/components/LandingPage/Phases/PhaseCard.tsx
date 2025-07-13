@@ -10,7 +10,6 @@ import Phase3Image from "../../../assets/landing/phase_4.png";
 import Phase4Image from "../../../assets/landing/phase_5.png";
 import Phase5Image from "../../../assets/landing/phase_6.png";
 import Phase6Image from "../../../assets/landing/phase_7.png";
-import Phase7Image from "../../../assets/landing/phase_7.png"; // Assuming phase_7.png is also for phase 7, adjust if a new asset is provided
 
 interface PhaseCardProps {
     phaseNumber: number;
@@ -185,19 +184,6 @@ export const Phase6Battles: React.FC = () => {
     );
 };
 
-export const Phase7Ascension: React.FC = () => {
-    const { t } = useTranslation();
-    return (
-        <PhaseCard
-            phaseNumber={7}
-            title={t('landingPage.phases.phase7.title')}
-            description={t('landingPage.phases.phase7.description')}
-            imageUrl={Phase7Image}
-            imageAlt={t('landingPage.phases.phase7.imageAlt')}
-        />
-    );
-};
-
 // A component to display all phases in a grid
 export const AllPhasesGrid: React.FC = () => {
     const { t } = useTranslation();
@@ -208,7 +194,6 @@ export const AllPhasesGrid: React.FC = () => {
         {component: Phase4Teaching},
         {component: Phase5Training},
         {component: Phase6Battles},
-        {component: Phase7Ascension},
     ];
 
     return (

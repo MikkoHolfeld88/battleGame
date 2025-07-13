@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint battleGame",
     "preview": "vite preview",
-    "deploy": "tsc -b && vite build && firebase deploy --except functions"
+    "deploy": "vite build && firebase deploy --except functions"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
