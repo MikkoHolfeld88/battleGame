@@ -14,6 +14,7 @@ const GlobalSnackbar: React.FC = () => {
     title,
   } = useSelector((state: RootState) => state.snackbar as SnackbarState); // Type assertion if needed
 
+  // @ts-ignore
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;

@@ -4,7 +4,7 @@ import { GoogleAuthProvider, signInWithPopup, UserCredential } from 'firebase/au
 import { auth } from '../../firebaseConfig';
 import { useAuth } from '../../auth/AuthContext';
 import { HOME_PATH } from '../../routes';
-import { Button, Container, Paper, Typography, Box, Alert } from '@mui/material';
+import { Button, Container, Paper, Typography, Box, Alert, CircularProgress } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { showSnackbar } from '../../store/slices/snackbarSlice'; // Import showSnackbar action

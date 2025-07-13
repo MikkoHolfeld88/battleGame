@@ -5,9 +5,11 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   console.log(env)
   return {
+    base: './',
     plugins: [react()],
     build: {
-      outDir: 'dist'
+      outDir: 'dist',
+      assetsDir: 'assets',
     }
   }
 })

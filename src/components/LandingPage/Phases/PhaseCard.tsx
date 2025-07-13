@@ -1,6 +1,8 @@
 import React from 'react';
-import {Box, Card, CardContent, CardMedia, Grid, Typography} from '@mui/material';
-import { useTranslation } from 'react-i18next'; // Import useTranslation
+import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { BLOG_PHASE1_PATH } from '../../../routes'; // Import the route path
 import Phase1Image from "../../../assets/landing/phase_1.png";
 import Phase2_1Image from "../../../assets/landing/phase_2.png";
 import Phase2_2Image from "../../../assets/landing/phase_3.png";
@@ -8,6 +10,7 @@ import Phase3Image from "../../../assets/landing/phase_4.png";
 import Phase4Image from "../../../assets/landing/phase_5.png";
 import Phase5Image from "../../../assets/landing/phase_6.png";
 import Phase6Image from "../../../assets/landing/phase_7.png";
+import Phase7Image from "../../../assets/landing/phase_7.png"; // Assuming phase_7.png is also for phase 7, adjust if a new asset is provided
 
 interface PhaseCardProps {
     phaseNumber: number;
@@ -26,7 +29,8 @@ const PhaseCard: React.FC<PhaseCardProps> = ({
      imageUrls,
      imageAlt,
  }) => {
-    const { t } = useTranslation(); // Initialize useTranslation
+    const { t } = useTranslation();
+    const navigate = useNavigate();
     const images =
         imageUrls && imageUrls.length > 0
             ? imageUrls
@@ -34,8 +38,15 @@ const PhaseCard: React.FC<PhaseCardProps> = ({
                 ? [imageUrl]
                 : [];
 
-    return (
-        <Card sx={{height: '100%', display: 'flex', flexDirection: 'column'}}>
+    const handleCardClick = () => {
+        if (phaseNumber === 1) {
+            navigate(BLOG_PHASE1_PATH);
+        }
+        // Potentially handle other phase clicks here if needed in the future
+    };
+
+    const cardContent = (
+        <>
             {images.length > 0 && (
                 <Box
                     sx={{
@@ -45,7 +56,7 @@ const PhaseCard: React.FC<PhaseCardProps> = ({
                         justifyContent: 'center',
                         alignItems: 'flex-start',
                         flexWrap: 'nowrap',
-                        overflowX: 'auto', // Falls sehr viele Bilder: horizontal scrollen
+                        overflowX: 'auto',
                     }}
                 >
                     {images.map((src, idx) => (
@@ -63,15 +74,14 @@ const PhaseCard: React.FC<PhaseCardProps> = ({
                             image={src}
                             alt={
                                 imageAlt
-                                ? t(imageAlt, { phaseNumber, title, defaultValue: `${imageAlt} (${phaseNumber})` })
-                                : t('landingPage.phases.conceptArtAlt', { title, number: idx + 1 })
+                                    ? t(imageAlt, { phaseNumber, title, defaultValue: `${imageAlt} (${phaseNumber})` })
+                                    : t('landingPage.phases.conceptArtAlt', { title, number: idx + 1 })
                             }
                         />
                     ))}
                 </Box>
             )}
-
-            <CardContent sx={{flexGrow: 1}}>
+            <CardContent sx={{ flexGrow: 1 }}>
                 <Typography gutterBottom variant="h4" component="div">
                     {title}
                 </Typography>
@@ -79,6 +89,18 @@ const PhaseCard: React.FC<PhaseCardProps> = ({
                     {description}
                 </Typography>
             </CardContent>
+        </>
+    );
+
+    return (
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            {phaseNumber === 1 ? (
+                <CardActionArea onClick={handleCardClick} sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                    {cardContent}
+                </CardActionArea>
+            ) : (
+                cardContent
+            )}
         </Card>
     );
 };
@@ -163,6 +185,19 @@ export const Phase6Battles: React.FC = () => {
     );
 };
 
+export const Phase7Ascension: React.FC = () => {
+    const { t } = useTranslation();
+    return (
+        <PhaseCard
+            phaseNumber={7}
+            title={t('landingPage.phases.phase7.title')}
+            description={t('landingPage.phases.phase7.description')}
+            imageUrl={Phase7Image}
+            imageAlt={t('landingPage.phases.phase7.imageAlt')}
+        />
+    );
+};
+
 // A component to display all phases in a grid
 export const AllPhasesGrid: React.FC = () => {
     const { t } = useTranslation();
@@ -173,6 +208,7 @@ export const AllPhasesGrid: React.FC = () => {
         {component: Phase4Teaching},
         {component: Phase5Training},
         {component: Phase6Battles},
+        {component: Phase7Ascension},
     ];
 
     return (
