@@ -4,6 +4,7 @@ import Header from '../../components/Layout/Header';
 import { AllPhasesGrid } from '../../components/LandingPage/Phases/PhaseCard';
 import { useTranslation } from 'react-i18next';
 import BlogSection from '../../components/LandingPage/BlogSection';
+import Footer from '../../components/Layout/Footer'; // Import the new Footer component
 import { useNavigate, useLocation } from "react-router-dom";
 import { GAME_START_PATH, BLOG_BASE_PATH } from "../../routes";
 
@@ -88,13 +89,7 @@ const LandingPage: React.FC = () => {
                 <BlogSection />
             </Container>
 
-            <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto', backgroundColor: 'background.paper', borderTop: '2px solid #ddd' }}>
-                <Container maxWidth="lg">
-                    <Typography variant="body2" color="text.secondary" align="center" sx={{ fontFamily: "'VT323', monospace" }}>
-                        {t('landingPage.footer.copyright', { year: new Date().getFullYear() })}
-                    </Typography>
-                </Container>
-            </Box>
+            <Footer />
         </Box>
     );
 };

@@ -1,8 +1,10 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {Box, Button, Modal, Paper, Typography} from '@mui/material';
-import {useTranslation} from 'react-i18next';
-import {GAME_START_PATH} from '../../routes';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Modal, Typography, Button, Paper, IconButton, Tooltip } from '@mui/material';
+import { ArrowBack as ArrowBackIcon, Fullscreen as FullscreenIcon, FullscreenExit as FullscreenExitIcon } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
+import { GAME_START_PATH } from '../../routes';
+import Footer from '../../components/Layout/Footer'; // Import the reusable Footer
 
 const modalStyle = {
     position: 'absolute' as 'absolute',
@@ -18,10 +20,11 @@ const modalStyle = {
 };
 
 const GameContainerPage: React.FC = () => {
-    const {t} = useTranslation();
-    const navigate = useNavigate();
-    const [isPaused, setIsPaused] = useState(false);
-    const gameCanvasRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [isPaused, setIsPaused] = useState(false);
+  const [isFullscreenActive, setIsFullscreenActive] = useState(false); // State for our game canvas fullscreen
+  const gameCanvasRef = useRef<HTMLDivElement>(null);
 
     const requestFullscreen = useCallback(() => {
         const element = gameCanvasRef.current;
@@ -50,99 +53,165 @@ const GameContainerPage: React.FC = () => {
         }
     }, []);
 
-    useEffect(() => {
-        requestFullscreen();
-        return () => {
-            if (document.fullscreenElement) {
-                exitFullscreen();
-            }
-        };
-    }, [requestFullscreen, exitFullscreen]);
-
-    const handleResumeGame = () => {
-        setIsPaused(false);
-        // TODO: Add game loop resume logic here
-        console.log("Game resumed");
-        requestFullscreen();
+  // Effect to clean up fullscreen when component unmounts
+  useEffect(() => {
+    return () => {
+      // Check if the gameCanvasRef.current is the fullscreen element
+      if (document.fullscreenElement === gameCanvasRef.current) {
+        exitFullscreen();
+      }
     };
+  }, [exitFullscreen]);
 
-    const handleQuitGame = () => {
-        setIsPaused(false);
-        // TODO: Add any game cleanup logic here
-        console.log("Quitting game");
-        if (document.fullscreenElement) { // Only exit if currently in fullscreen
-            exitFullscreen();
+  const handleResumeGame = () => {
+    setIsPaused(false);
+    // TODO: Add game loop resume logic here
+    console.log("Game resumed");
+    // Re-enter fullscreen for the game canvas if it was active
+    if (isFullscreenActive && !document.fullscreenElement) {
+        requestFullscreen();
+    }
+  };
+
+  const handleQuitGame = () => {
+    setIsPaused(false);
+    // TODO: Add any game cleanup logic here
+    console.log("Quitting game");
+    if (document.fullscreenElement === gameCanvasRef.current) {
+      exitFullscreen();
+    }
+    navigate(GAME_START_PATH);
+  };
+
+  // Effect for Keyboard (ESC) and Fullscreen Change listeners
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        // If game canvas is fullscreen and game is not paused, pause it
+        if (document.fullscreenElement === gameCanvasRef.current && !isPaused) {
+          setIsPaused(true);
+          // Game loop pause logic would go here
+          console.log("Game paused via ESC key (while game canvas in fullscreen)");
         }
-        navigate(GAME_START_PATH);
+        // Note: Browser handles ESC to exit fullscreen automatically.
+        // Our fullscreenChangeHandler will then update isFullscreenActive.
+      }
     };
 
-    useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                if (document.fullscreenElement && !isPaused) {
-                    setIsPaused(true);
-                    // TODO: Add game loop pause logic here
-                    console.log("Game paused via ESC key (while in fullscreen)");
-                } else if (isPaused) {
-                    // If already paused (modal is open), ESC could be interpreted as "Resume"
-                    // For simplicity, let modal buttons handle resume/quit.
-                    // Or, uncomment to make ESC resume:
-                    // handleResumeGame();
-                }
-                // Note: Browser itself handles ESC to exit fullscreen.
-                // If not in fullscreen, ESC does not trigger pause here by default.
-            }
-        };
+    const handleFullscreenChange = () => {
+      // Update our state based on whether gameCanvasRef.current is the fullscreen element
+      const currentlyFullscreen = document.fullscreenElement === gameCanvasRef.current;
+      setIsFullscreenActive(currentlyFullscreen);
+      if (!currentlyFullscreen && isPaused) {
+        // If fullscreen was exited (e.g. by ESC) and game was paused,
+        // it remains paused. User can resume via modal.
+        console.log("Exited fullscreen, game is still paused.");
+      }
+    };
 
-        window.addEventListener('keydown', handleKeyDown);
-        const fullscreenChangeHandler = () => {
-            // If exiting fullscreen and the game was paused, perhaps unpause or decide behavior.
-            // For now, if modal is open due to ESC in fullscreen, it remains open.
-            if (!document.fullscreenElement && isPaused) {
-                console.log("Exited fullscreen, game is still paused.");
-            }
-        };
-        document.addEventListener('fullscreenchange', fullscreenChangeHandler);
-        document.addEventListener('webkitfullscreenchange', fullscreenChangeHandler);
-        document.addEventListener('mozfullscreenchange', fullscreenChangeHandler);
-        document.addEventListener('MSFullscreenChange', fullscreenChangeHandler);
+    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange); // Safari
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);    // Firefox
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);     // IE/Edge
 
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-            document.removeEventListener('fullscreenchange', fullscreenChangeHandler);
-            document.removeEventListener('webkitfullscreenchange', fullscreenChangeHandler);
-            document.removeEventListener('mozfullscreenchange', fullscreenChangeHandler);
-            document.removeEventListener('MSFullscreenChange', fullscreenChangeHandler);
-        };
-    }, [isPaused, exitFullscreen, handleResumeGame]); // Added handleResumeGame if used by ESC
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    };
+    // Dependencies: isPaused to correctly handle ESC logic,
+    // gameCanvasRef.current might be technically needed if its identity could change, but unlikely for a useRef.
+  }, [isPaused, gameCanvasRef]);
 
-    // @ts-ignore
-    return (
+  // @ts-ignore
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100vh',
+        bgcolor: 'background.default',
+      }}
+    >
+      {/* Actual Header */}
+      {!isFullscreenActive && ( // Only show Header if not in fullscreen
         <Box
-            ref={gameCanvasRef}
-            sx={{
-                width: '100%', // Use 100% to fill parent width; avoids vw issues with scrollbars
-                height: '100vh', // Fills viewport height. Assumes no vertical scroll on body for this page.
-                                 // Or use height: '100%' if html, body, #root are set to height: 100%
-                bgcolor: 'black',
-                color: 'white',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden', // Prevent scrollbars within the game container itself
-                cursor: isPaused ? 'default' : 'none'
-            }}
+          sx={{
+            p: 1,
+            bgcolor: 'primary.main',
+            color: 'primary.contrastText',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexShrink: 0, // Prevent header from shrinking
+          }}
         >
-            <Typography variant="h2">
-                {t('gameContainerPage.gameAreaTitle', 'Game Area')}
-            </Typography>
-            <Typography variant="body1" sx={{mt: 2}}>
-                {t('gameContainerPage.gameAreaInstructions', 'Your game will be rendered here.')}
-            </Typography>
-            <Typography variant="caption" sx={{mt: 1, color: 'grey.500'}}>
-                {t('gameContainerPage.fullscreenInfo', 'Press ESC to pause.')}
-            </Typography>
+          <Tooltip title={t('gameContainerPage.header.backButton', 'Back to Menu')}>
+            <IconButton
+              onClick={() => {
+                // No need to check document.fullscreenElement here as isFullscreenActive handles it
+                if (isFullscreenActive) exitFullscreen();
+                navigate(GAME_START_PATH);
+              }}
+              color="inherit"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Tooltip>
+          <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center' }}>
+            {t('gameContainerPage.title', 'Play Game')}
+          </Typography>
+          <Tooltip title={isFullscreenActive
+              ? t('gameContainerPage.header.exitFullscreenButton', 'Exit Fullscreen')
+              : t('gameContainerPage.header.enterFullscreenButton', 'Enter Fullscreen')}>
+            <IconButton
+              onClick={() => {
+                if (isFullscreenActive) {
+                  exitFullscreen();
+                } else {
+                  requestFullscreen();
+                }
+              }}
+              color="inherit"
+            >
+              {isFullscreenActive ? <FullscreenExitIcon /> : <FullscreenIcon />}
+            </IconButton>
+          </Tooltip>
+        </Box>
+      )}
+
+      {/* Game Area */}
+      <Box
+        ref={gameCanvasRef}
+        sx={{
+          flexGrow: 1,
+          bgcolor: 'black',
+          color: 'white',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          cursor: isPaused ? 'default' : 'none'
+        }}
+      >
+        <Typography variant="h2">
+          {t('gameContainerPage.gameAreaTitle', 'Game Area')}
+        </Typography>
+        <Typography variant="body1" sx={{mt: 2}}>
+          {t('gameContainerPage.gameAreaInstructions', 'Your game will be rendered here.')}
+        </Typography>
+        <Typography variant="caption" sx={{mt: 1, color: 'grey.500'}}>
+          {t('gameContainerPage.fullscreenInfo', 'Press ESC to pause.')}
+        </Typography>
+      </Box>
+
+      {/* Reusable Footer */}
+      {!isFullscreenActive && <Footer />}
 
             <Modal
                 open={isPaused}

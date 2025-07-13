@@ -9,6 +9,7 @@ import { GAME_CONTAINER_PATH, LOGIN_PATH } from '../../routes';
 import { useDispatch } from 'react-redux';
 import { showSnackbar } from '../../store/slices/snackbarSlice';
 import LogoutIcon from '@mui/icons-material/Logout';
+import Footer from '../../components/Layout/Footer'; // Import the new Footer component
 
 // Placeholder images - replace with actual paths or import statements if available
 const placeholderImage1 = 'https://via.placeholder.com/300x200.png?text=Exciting+Game+Scene+1';
@@ -44,62 +45,60 @@ const GameStartPage: React.FC = () => {
 
   // @ts-ignore
   return (
-    <Container component="main" maxWidth="md" sx={{ mt: 8, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Container component="main" maxWidth="md" sx={{ mt: 8, mb: 4, flexGrow: 1, position: 'relative' }}>
         <Button
           variant="outlined"
           color="secondary"
           startIcon={<LogoutIcon />}
           onClick={handleLogout}
-          sx={{ position: 'absolute', top: 16, right: 16 }}
+          sx={{ position: 'absolute', top: 0, right: 16, zIndex: 1 }}
         >
           {t('gameStartPage.logoutButton', 'Logout')}
         </Button>
+        <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 2 /* Add margin top to not be overlapped by button */ }}>
+          <Typography variant="h3" component="h1" gutterBottom sx={{ textAlign: 'center' }}>
+            {t('gameStartPage.title', 'Welcome to the Game!')}
+          </Typography>
 
-        <Typography variant="h3" component="h1" gutterBottom sx={{ textAlign: 'center', mt: 2 }}> {/* Added mt for spacing from logout button */}
-          {t('gameStartPage.title', 'Welcome to the Game!')}
-        </Typography>
+          <Typography variant="h5" component="p" sx={{ mt: 2, mb: 3, textAlign: 'center' }}>
+            {t('gameStartPage.intro', 'Get ready for an exciting adventure. Click the button below to begin your journey.')}
+          </Typography>
 
-        <Typography variant="h5" component="p" sx={{ mt: 2, mb: 3, textAlign: 'center' }}>
-          {t('gameStartPage.intro', 'Get ready for an exciting adventure. Click the button below to begin your journey.')}
-        </Typography>
+          <Box sx={{ my: 4 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={handleStartGame}
+              sx={{ minWidth: '200px', py: 1.5, fontSize: '1.2rem' }}
+            >
+              {t('gameStartPage.startGameButton', 'Start Game')}
+            </Button>
+          </Box>
 
-        <Box sx={{ my: 4 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={handleStartGame}
-            sx={{ minWidth: '200px', py: 1.5, fontSize: '1.2rem' }}
-          >
-            {t('gameStartPage.startGameButton', 'Start Game')}
-          </Button>
-        </Box>
-
-        <Grid2 container spacing={4} sx={{ mt: 3, justifyContent: 'center' }}>
-          <Grid2 size={{xs: 12, sm: 6, md: 5}}>
-            <Box sx={{ textAlign: 'center' }}>
-              <img src={placeholderImage1} alt={t('gameStartPage.imageAlt1', 'Exciting game scene')} style={{ maxWidth: '100%', borderRadius: '8px' }} />
-              <Typography variant="body1" sx={{ mt: 1 }}>
-                {t('gameStartPage.imageCaption1', 'Explore vast worlds and uncover secrets.')}
-              </Typography>
-            </Box>
+          <Grid2 container spacing={4} sx={{ mt: 3, justifyContent: 'center' }}>
+            <Grid2 size={{xs: 12, sm: 6, md: 5}}>
+              <Box sx={{ textAlign: 'center' }}>
+                <img src={placeholderImage1} alt={t('gameStartPage.imageAlt1', 'Exciting game scene')} style={{ maxWidth: '100%', borderRadius: '8px' }} />
+                <Typography variant="body1" sx={{ mt: 1 }}>
+                  {t('gameStartPage.imageCaption1', 'Explore vast worlds and uncover secrets.')}
+                </Typography>
+              </Box>
+            </Grid2>
+            <Grid2 size={{xs: 12, sm: 6, md: 5}}>
+              <Box sx={{ textAlign: 'center' }}>
+                <img src={placeholderImage2} alt={t('gameStartPage.imageAlt2', 'Game feature highlight')} style={{ maxWidth: '100%', borderRadius: '8px' }} />
+                <Typography variant="body1" sx={{ mt: 1 }}>
+                  {t('gameStartPage.imageCaption2', 'Master unique abilities and challenges.')}
+                </Typography>
+              </Box>
+            </Grid2>
           </Grid2>
-          <Grid2 size={{xs: 12, sm: 6, md: 5}}>
-            <Box sx={{ textAlign: 'center' }}>
-              <img src={placeholderImage2} alt={t('gameStartPage.imageAlt2', 'Game feature highlight')} style={{ maxWidth: '100%', borderRadius: '8px' }} />
-              <Typography variant="body1" sx={{ mt: 1 }}>
-                {t('gameStartPage.imageCaption2', 'Master unique abilities and challenges.')}
-              </Typography>
-            </Box>
-          </Grid2>
-        </Grid2>
-
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 5, textAlign: 'center' }}>
-          {t('gameStartPage.footerNote', 'Ensure you have a stable internet connection for the best experience.')}
-        </Typography>
-      </Paper>
-    </Container>
+        </Paper>
+      </Container>
+      <Footer />
+    </Box>
   );
 };
 

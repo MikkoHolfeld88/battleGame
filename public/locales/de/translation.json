@@ -77,7 +77,6 @@
   "gameStartPage.imageCaption1": "Erkunde riesige Welten und entdecke Geheimnisse.",
   "gameStartPage.imageAlt2": "Highlight eines Spiel-Features",
   "gameStartPage.imageCaption2": "Meistere einzigartige Fähigkeiten und Herausforderungen.",
-  "gameStartPage.footerNote": "Stelle sicher, dass du eine stabile Internetverbindung für das beste Erlebnis hast.",
 
   "gameContainerPage.gameAreaTitle": "Spielbereich",
   "gameContainerPage.gameAreaInstructions": "Dein Spiel wird hier gerendert.",
@@ -86,6 +85,10 @@
   "gameContainerPage.pauseModal.description": "Das Spiel ist derzeit pausiert. Was möchtest du tun?",
   "gameContainerPage.pauseModal.resumeButton": "Fortsetzen",
   "gameContainerPage.pauseModal.quitButton": "Zum Menü",
+  "gameContainerPage.title": "Spiel spielen",
+  "gameContainerPage.header.backButton": "Zurück zum Menü",
+  "gameContainerPage.header.exitFullscreenButton": "Vollbild beenden",
+  "gameContainerPage.header.enterFullscreenButton": "Vollbild aktivieren",
 
   "snackbar.loginSuccessTitle": "Anmeldung erfolgreich",
   "snackbar.loginSuccessMessage": "Willkommen zurück, {{userName}}!",
