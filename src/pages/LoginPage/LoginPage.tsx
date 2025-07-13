@@ -8,6 +8,7 @@ import { Button, Container, Paper, Typography, Box, Alert, CircularProgress } fr
 import GoogleIcon from '@mui/icons-material/Google';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { showSnackbar } from '../../store/slices/snackbarSlice'; // Import showSnackbar action
+import Layout from '../../components/Layout/Layout';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -66,33 +67,35 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 64px)' }}>
-      <Paper elevation={6} sx={{ padding: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', mt: -8 }}>
-        <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
-          Login
-        </Typography>
-        {error && ( // Display error directly in the form as well
-          <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-        <Button
-          type="button"
-          fullWidth
-          variant="contained"
-          color="primary"
-          startIcon={<GoogleIcon />}
-          onClick={handleGoogleSignIn}
-          disabled={isLoggingIn || isLoggedIn} // Disable if already logged in too
-          sx={{ py: 1.5 }}
-        >
-          {isLoggingIn ? 'Logging in...' : 'Sign In with Google'}
-        </Button>
-        <Typography variant="body2" color="text.secondary" sx={{mt: 3}}>
-            You will be redirected after successful login.
-        </Typography>
-      </Paper>
-    </Container>
+    <Layout>
+      <Container component="main" maxWidth="xs" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 64px)' }}>
+        <Paper elevation={6} sx={{ padding: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', mt: -8 }}>
+          <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
+            Login
+          </Typography>
+          {error && ( // Display error directly in the form as well
+            <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
+              {error}
+            </Alert>
+          )}
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="primary"
+            startIcon={<GoogleIcon />}
+            onClick={handleGoogleSignIn}
+            disabled={isLoggingIn || isLoggedIn} // Disable if already logged in too
+            sx={{ py: 1.5 }}
+          >
+            {isLoggingIn ? 'Logging in...' : 'Sign In with Google'}
+          </Button>
+          <Typography variant="body2" color="text.secondary" sx={{mt: 3}}>
+              You will be redirected after successful login.
+          </Typography>
+        </Paper>
+      </Container>
+    </Layout>
   );
 };
 

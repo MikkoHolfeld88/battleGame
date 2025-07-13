@@ -1,12 +1,11 @@
 import React from 'react';
 import { Box, Button, Container, Paper, Typography } from '@mui/material';
-import Header from '../../components/Layout/Header';
 import { AllPhasesGrid } from '../../components/LandingPage/Phases/PhaseCard';
 import { useTranslation } from 'react-i18next';
 import BlogSection from '../../components/LandingPage/BlogSection';
-import Footer from '../../components/Layout/Footer'; // Import the new Footer component
 import { useNavigate, useLocation } from "react-router-dom";
 import { GAME_START_PATH, BLOG_BASE_PATH } from "../../routes";
+import Layout from '../../components/Layout/Layout';
 
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();
@@ -23,27 +22,17 @@ const LandingPage: React.FC = () => {
     if (isBlogPostView) {
         // Render only the blog section for blog post views
         return (
-            <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
-                <Header />
+            <Layout>
                 <Container component="main" sx={{ flexGrow: 1, py: { xs: 3, md: 5 } }}>
                     <BlogSection />
                 </Container>
-                <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto', backgroundColor: 'background.paper', borderTop: '2px solid #ddd' }}>
-                    <Container maxWidth="lg">
-                        <Typography variant="body2" color="text.secondary" align="center" sx={{ fontFamily: "'VT323', monospace" }}>
-                            {t('landingPage.footer.copyright', { year: new Date().getFullYear() })}
-                        </Typography>
-                    </Container>
-                </Box>
-            </Box>
+            </Layout>
         );
     }
 
     // Render the full landing page
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
-            <Header />
-
+        <Layout>
             <Paper
                 elevation={0}
                 square
@@ -88,9 +77,7 @@ const LandingPage: React.FC = () => {
                 <AllPhasesGrid />
                 <BlogSection />
             </Container>
-
-            <Footer />
-        </Box>
+        </Layout>
     );
 };
 

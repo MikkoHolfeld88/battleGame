@@ -9,7 +9,7 @@ import { GAME_CONTAINER_PATH, LOGIN_PATH } from '../../routes';
 import { useDispatch } from 'react-redux';
 import { showSnackbar } from '../../store/slices/snackbarSlice';
 import LogoutIcon from '@mui/icons-material/Logout';
-import Footer from '../../components/Layout/Footer'; // Import the new Footer component
+import Layout from '../../components/Layout/Layout';
 
 // Placeholder images - replace with actual paths or import statements if available
 const placeholderImage1 = 'https://via.placeholder.com/300x200.png?text=Exciting+Game+Scene+1';
@@ -45,7 +45,7 @@ const GameStartPage: React.FC = () => {
 
   // @ts-ignore
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Layout>
       <Container component="main" maxWidth="md" sx={{ mt: 8, mb: 4, flexGrow: 1, position: 'relative' }}>
         <Button
           variant="outlined"
@@ -97,8 +97,7 @@ const GameStartPage: React.FC = () => {
           </Grid2>
         </Paper>
       </Container>
-      <Footer />
-    </Box>
+    </Layout>
   );
 };
 
