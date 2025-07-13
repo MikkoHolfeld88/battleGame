@@ -82,6 +82,10 @@
   "gameContainerPage.pauseModal.description": "Das Spiel ist derzeit pausiert. Was möchtest du tun?",
   "gameContainerPage.pauseModal.resumeButton": "Fortsetzen",
   "gameContainerPage.pauseModal.quitButton": "Zum Menü",
+  "gameContainerPage.title": "Spiel spielen",
+  "gameContainerPage.header.backButton": "Zurück zum Menü",
+  "gameContainerPage.header.exitFullscreenButton": "Vollbild beenden",
+  "gameContainerPage.header.enterFullscreenButton": "Vollbild aktivieren",
 
   "snackbar.loginSuccessTitle": "Anmeldung erfolgreich",
   "snackbar.loginSuccessMessage": "Willkommen zurück, {{userName}}!",

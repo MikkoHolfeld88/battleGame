@@ -44,19 +44,18 @@ const GameStartPage: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Container component="main" maxWidth="md" sx={{ mt: 8, mb: 4, flexGrow: 1 }}>
-        <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<LogoutIcon />}
-            onClick={handleLogout}
-            sx={{ position: 'absolute', top: 16, right: 16 }}
-          >
-            {t('gameStartPage.logoutButton', 'Logout')}
-          </Button>
-
-          <Typography variant="h3" component="h1" gutterBottom sx={{ textAlign: 'center', mt: 2 }}> {/* Added mt for spacing from logout button */}
+      <Container component="main" maxWidth="md" sx={{ mt: 8, mb: 4, flexGrow: 1, position: 'relative' }}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          startIcon={<LogoutIcon />}
+          onClick={handleLogout}
+          sx={{ position: 'absolute', top: 0, right: 16, zIndex: 1 }}
+        >
+          {t('gameStartPage.logoutButton', 'Logout')}
+        </Button>
+        <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 2 /* Add margin top to not be overlapped by button */ }}>
+          <Typography variant="h3" component="h1" gutterBottom sx={{ textAlign: 'center' }}>
             {t('gameStartPage.title', 'Welcome to the Game!')}
           </Typography>
 

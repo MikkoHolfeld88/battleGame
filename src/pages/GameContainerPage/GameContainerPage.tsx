@@ -4,6 +4,7 @@ import { Box, Modal, Typography, Button, Paper, IconButton, Tooltip } from '@mui
 import { ArrowBack as ArrowBackIcon, Fullscreen as FullscreenIcon, FullscreenExit as FullscreenExitIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { GAME_START_PATH } from '../../routes';
+import Footer from '../../components/Layout/Footer'; // Import the reusable Footer
 
 const modalStyle = {
   position: 'absolute' as 'absolute',
@@ -200,8 +201,10 @@ const GameContainerPage: React.FC = () => {
           // If header/footer are hidden, this will naturally expand.
           // If gameCanvasRef itself is the fullscreen element, its own styling will dictate.
           // The `position: 'relative'` was for cases where children might be absolutely positioned,
-          // but for the fullscreen behavior of gameCanvasRef itself, it's less critical
-          // as the browser's fullscreen takes the element out of normal flow.
+          -          // but for the fullscreen behavior of gameCanvasRef itself, it's less critical
+-          // as the browser's fullscreen takes the element out of normal flow.
++          // but for the fullscreen behavior of gameCanvasRef itself, it's less critical
++          // as the browser's fullscreen takes the element out of normal flow.
         }}
       >
         <Typography variant="h2">
@@ -215,23 +218,8 @@ const GameContainerPage: React.FC = () => {
         </Typography>
       </Box>
 
-      {/* Actual Footer */}
-      {!isFullscreenActive && ( // Only show Footer if not in fullscreen
-        <Box
-          sx={{
-            p: 2,
-            bgcolor: 'secondary.main',
-            color: 'secondary.contrastText',
-            textAlign: 'center',
-            borderTop: '1px solid #444',
-            flexShrink: 0, // Prevent footer from shrinking
-          }}
-        >
-          <Typography variant="caption">
-            {t('gameContainerPage.footer.copyright', `© ${new Date().getFullYear()} Your Game Company. All rights reserved.`)}
-          </Typography>
-        </Box>
-      )}
+      {/* Reusable Footer */}
+      {!isFullscreenActive && <Footer />}
 
       <Modal
         open={isPaused}
