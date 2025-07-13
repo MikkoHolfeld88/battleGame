@@ -1,31 +1,70 @@
-import React, { useRef, useEffect, useState } from 'react';
+import {
+    forwardRef,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState
+} from 'react';
 import Phaser from 'phaser';
 import { IonPhaser } from '@ion-phaser/react';
 import MainScene from './scenes/MainScene';
 
-interface PhaserGameProps {
-  width: number;
-  height: number;
+export interface PhaserGameHandle {
+    pause: () => void;
+    resume: () => void;
 }
 
-const PhaserGame: React.FC<PhaserGameProps> = ({ width, height }) => {
-  const gameRef = useRef(null);
-  const [game, setGame] = useState<any>({
-    width: width,
-    height: height,
-    type: Phaser.AUTO,
-    scene: MainScene,
-  });
+interface Props {
+    width: number;   // kommt zwar noch aus React, ist aber nur informativ
+    height: number;
+}
 
-  useEffect(() => {
-    setGame({
-      ...game,
-      width: width,
-      height: height,
-    });
-  }, [width, height]);
+const PhaserGame = forwardRef<PhaserGameHandle, Props>(
+    ({ width, height }, ref) => {
+        const ionRef = useRef<any>(null);
+        const [initialize] = useState(true);   // sofort initialisieren
 
-  return <IonPhaser ref={gameRef} game={game} initialize={true} />;
-};
+        /* ---------- Cleanup ---------- */
+        useEffect(
+            () => () => {
+                ionRef.current?.getInstance?.()?.instance?.destroy(true);
+            },
+            []
+        );
+
+        /* ---------- Pause / Resume ---------- */
+        useImperativeHandle(ref, () => ({
+            pause() {
+                const game = ionRef.current?.getInstance?.()?.instance as Phaser.Game;
+                game?.scene.pause('MainScene');
+            },
+            resume() {
+                const game = ionRef.current?.getInstance?.()?.instance as Phaser.Game;
+                game?.scene.resume('MainScene');
+            }
+        }), []);
+
+        /* ---------- Render ---------- */
+
+        return (
+            // @ts-ignore
+            <IonPhaser
+                ref={ionRef}
+                initialize={initialize}
+                game={{
+                    type: Phaser.AUTO,
+                    width: width || 640,
+                    height: height || 480,
+                    scene: MainScene,
+                    scale: {
+                        mode: Phaser.Scale.RESIZE,
+                        autoCenter: Phaser.Scale.CENTER_BOTH
+                    },
+                    backgroundColor: '#b25f5f',
+                }}
+            />
+        );
+    }
+);
 
 export default PhaserGame;
