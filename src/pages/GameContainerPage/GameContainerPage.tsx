@@ -11,7 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { GAME_START_PATH } from '../../routes';
 import Footer from '../../components/Layout/Footer';
-import PhaserGame, { type PhaserGameHandle } from '../../game/PhaserGame';
+import Game from "../../game/Game";
 
 const modalStyle = {
     position: 'absolute' as const,
@@ -35,7 +35,6 @@ const GameContainerPage: React.FC = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
 
     const gameCanvasRef = useRef<HTMLDivElement>(null);
-    const phaserRef = useRef<PhaserGameHandle>(null);
 
     const [canvasSize, setCanvasSize] = useState({
         width: window.innerWidth,
@@ -84,7 +83,6 @@ const GameContainerPage: React.FC = () => {
                 document.fullscreenElement === gameCanvasRef.current &&
                 !isPaused) {
                 setIsPaused(true);
-                phaserRef.current?.pause();
             }
         };
         const onFsChange = () =>
@@ -108,7 +106,6 @@ const GameContainerPage: React.FC = () => {
     /* ---------- Pause / Resume ---------- */
     const resume = () => {
         setIsPaused(false);
-        phaserRef.current?.resume();
         if (isFullscreen && !document.fullscreenElement) requestFullscreen();
     };
 
@@ -169,11 +166,7 @@ const GameContainerPage: React.FC = () => {
                     cursor: isPaused ? 'default' : 'none'
                 }}
             >
-                <PhaserGame
-                    ref={phaserRef}
-                    width={canvasSize.width}
-                    height={canvasSize.height}
-                />
+                <Game width={canvasSize.width} height={canvasSize.height}/>
             </Box>
 
             {!isFullscreen && <Footer />}
