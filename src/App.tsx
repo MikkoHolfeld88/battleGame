@@ -13,8 +13,10 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import GlobalSnackbar from './components/UI/GlobalSnackbar';
 
 // Import Route Paths
-// HOME_PATH is an alias for GAME_START_PATH in routes.ts now.
-import { LANDING_PATH, HOME_PATH, GAME_START_PATH, GAME_CONTAINER_PATH, LOGIN_PATH } from './routes';
+import {
+  LANDING_PATH, HOME_PATH, GAME_START_PATH, GAME_CONTAINER_PATH, LOGIN_PATH,
+  BLOG_PHASE1_PATH, BLOG_POST_PATH, BLOG_BASE_PATH
+} from './routes';
 
 // Import ProtectedRoute and PublicOnlyRoute
 import ProtectedRoute, { PublicOnlyRoute } from './components/Auth/ProtectedRoute';
@@ -26,7 +28,10 @@ function App() {
       <GlobalSnackbar />
       <Routes>
         {/* Public Routes */}
+        {/* LandingPage handles its own content based on path, including blog posts */}
         <Route path={LANDING_PATH} element={<LandingPage />} />
+        <Route path={BLOG_BASE_PATH + "/*"} element={<LandingPage />} /> {/* Ensures LandingPage is rendered for /blog/* routes */}
+
 
         {/* PublicOnlyRoute: For pages like login, if user is logged in, redirect to GAME_START_PATH (via HOME_PATH alias) */}
         <Route element={<PublicOnlyRoute redirectTo={HOME_PATH} />}>
