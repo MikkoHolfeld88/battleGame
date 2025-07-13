@@ -11,3 +11,5 @@ export const GAME_CONTAINER_PATH = '/play'; // Path for the GameContainerPage
 export const BLOG_BASE_PATH = '/blog';
 export const BLOG_PHASE1_PATH = `${BLOG_BASE_PATH}/phase1`;
 export const BLOG_POST_PATH = `${BLOG_BASE_PATH}/post/:postId`; // For generic blog posts if needed
+
+export const ABOUT_US_PATH = '/about-us';

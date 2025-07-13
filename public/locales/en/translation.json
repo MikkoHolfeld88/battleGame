@@ -121,5 +121,16 @@
   "phase1.stadium10.title": "Stadium Concept 10",
   "phase1.stadium10.description": "Refining the aesthetic with a focus on atmospheric lighting and distinct zones within the starting area. Highlighting safe zones and danger zones.",
   "phase1.stadium11.title": "Stadium Concept 11",
-  "phase1.stadium11.description": "Finalizing the look and feel for the initial resource gathering phase. Balancing visual appeal with gameplay readability for a smooth player onboarding."
+  "phase1.stadium11.description": "Finalizing the look and feel for the initial resource gathering phase. Balancing visual appeal with gameplay readability for a smooth player onboarding.",
+
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "aboutUs": "About Us",
+    "play": "Play"
+  },
+  "aboutUs": {
+    "title": "About Us",
+    "content": "This is the about us page. Content will be added soon."
+  }
 }

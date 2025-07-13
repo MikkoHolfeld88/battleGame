@@ -8,6 +8,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import GameStartPage from './pages/GameStartPage/GameStartPage';
 import GameContainerPage from './pages/GameContainerPage/GameContainerPage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import AboutUsPage from './pages/AboutUsPage/AboutUsPage';
 
 // Import Global UI Components
 import GlobalSnackbar from './components/UI/GlobalSnackbar';
@@ -15,7 +16,7 @@ import GlobalSnackbar from './components/UI/GlobalSnackbar';
 // Import Route Paths
 import {
   LANDING_PATH, HOME_PATH, GAME_START_PATH, GAME_CONTAINER_PATH, LOGIN_PATH,
-  BLOG_PHASE1_PATH, BLOG_POST_PATH, BLOG_BASE_PATH
+  BLOG_PHASE1_PATH, BLOG_POST_PATH, BLOG_BASE_PATH, ABOUT_US_PATH
 } from './routes';
 
 // Import ProtectedRoute and PublicOnlyRoute
@@ -31,6 +32,7 @@ function App() {
         {/* LandingPage handles its own content based on path, including blog posts */}
         <Route path={LANDING_PATH} element={<LandingPage />} />
         <Route path={BLOG_BASE_PATH + "/*"} element={<LandingPage />} /> {/* Ensures LandingPage is rendered for /blog/* routes */}
+        <Route path={ABOUT_US_PATH} element={<AboutUsPage />} />
 
 
         {/* PublicOnlyRoute: For pages like login, if user is logged in, redirect to GAME_START_PATH (via HOME_PATH alias) */}

@@ -23,6 +23,7 @@ import {
     AccountCircle,
 } from '@mui/icons-material';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
+import Navigation from './Navigation';
 import { auth, googleProvider } from '../../firebaseConfig';
 import { useTranslation } from 'react-i18next';
 import {
@@ -242,6 +243,7 @@ const Header: React.FC = () => {
                             mr: { xs: 'auto', sm: 0 },
                         }}
                     >
+                        <Navigation />
                         <LanguageSwitcher />
 
                         {user ? (
