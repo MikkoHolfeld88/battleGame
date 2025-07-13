@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Card, CardContent, Grid, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useParams, Outlet, useLocation } from 'react-router-dom';
-import Phase1BlogPost from './Phase1BlogPost'; // Assuming Phase1BlogPost is in the same directory
+import Phase1BlogPost from './BlogSection/Phase1BlogPost'; // Assuming Phase1BlogPost is in the same directory
 
 interface BlogPost {
     id: string;
