@@ -91,5 +91,15 @@
   "snackbar.logoutSuccessTitle": "Abgemeldet",
   "snackbar.logoutSuccessMessage": "Du wurdest erfolgreich abgemeldet.",
   "snackbar.logoutErrorTitle": "Abmeldung fehlgeschlagen",
-  "snackbar.logoutErrorMessage": "Während der Abmeldung ist ein Fehler aufgetreten. {{errorMessage}}"
+  "snackbar.logoutErrorMessage": "Während der Abmeldung ist ein Fehler aufgetreten. {{errorMessage}}",
+
+  "phase1.blogTitle": "Phase 1: Der Ressourcenrausch - Ein genauerer Blick",
+  "phase1.stadium1.title": "Stadionkonzept 1",
+  "phase1.stadium1.description": "Frühes Konzept für ein lebendiges, ressourcenreiches Startgebiet. Fokus auf visuelle Klarheit und sofortiges Verständnis der sammelbaren Elemente.",
+  "phase1.stadium4.title": "Stadionkonzept 4",
+  "phase1.stadium4.description": "Erkundung einer dichteren Umgebung mit komplexeren Interaktionen. Einführung früher räuberischer Elemente und vielfältiger Ressourcentypen.",
+  "phase1.stadium10.title": "Stadionkonzept 10",
+  "phase1.stadium10.description": "Verfeinerung der Ästhetik mit Fokus auf atmosphärische Beleuchtung und abgegrenzte Zonen innerhalb des Startbereichs. Hervorhebung von Sicherheitszonen und Gefahrenzonen.",
+  "phase1.stadium11.title": "Stadionkonzept 11",
+  "phase1.stadium11.description": "Finalisierung des Erscheinungsbildes für die anfängliche Ressourcensammelphase. Ausgewogenheit zwischen visueller Attraktivität und Lesbarkeit des Gameplays für einen reibungslosen Einstieg der Spieler."
 }

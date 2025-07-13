@@ -91,5 +91,15 @@
   "snackbar.logoutSuccessTitle": "Logged Out",
   "snackbar.logoutSuccessMessage": "You have been successfully logged out.",
   "snackbar.logoutErrorTitle": "Logout Failed",
-  "snackbar.logoutErrorMessage": "An error occurred during logout. {{errorMessage}}"
+  "snackbar.logoutErrorMessage": "An error occurred during logout. {{errorMessage}}",
+
+  "phase1.blogTitle": "Phase 1: The Resource Rush - A Closer Look",
+  "phase1.stadium1.title": "Stadium Concept 1",
+  "phase1.stadium1.description": "Early concept for a vibrant, resource-rich starting area. Focus on visual clarity and immediate understanding of collectible elements.",
+  "phase1.stadium4.title": "Stadium Concept 4",
+  "phase1.stadium4.description": "Exploring a denser environment with more complex interactions. Introducing early predatory elements and varied resource types.",
+  "phase1.stadium10.title": "Stadium Concept 10",
+  "phase1.stadium10.description": "Refining the aesthetic with a focus on atmospheric lighting and distinct zones within the starting area. Highlighting safe zones and danger zones.",
+  "phase1.stadium11.title": "Stadium Concept 11",
+  "phase1.stadium11.description": "Finalizing the look and feel for the initial resource gathering phase. Balancing visual appeal with gameplay readability for a smooth player onboarding."
 }
