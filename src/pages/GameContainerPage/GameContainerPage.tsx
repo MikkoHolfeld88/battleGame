@@ -1,13 +1,21 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, {
+    useCallback, useEffect, useRef, useState
+} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Modal, Typography, Button, Paper, IconButton, Tooltip } from '@mui/material';
-import { ArrowBack as ArrowBackIcon, Fullscreen as FullscreenIcon, FullscreenExit as FullscreenExitIcon } from '@mui/icons-material';
+import {
+    Box, Button, IconButton, Modal, Paper, Tooltip, Typography
+} from '@mui/material';
+import {
+    ArrowBack, Fullscreen, FullscreenExit
+} from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { GAME_START_PATH } from '../../routes';
 import Layout from '../../components/Layout/Layout';
+import Footer from '../../components/Layout/Footer';
+import PhaserGame, { type PhaserGameHandle } from '../../game/PhaserGame';
 
 const modalStyle = {
-    position: 'absolute' as 'absolute',
+    position: 'absolute' as const,
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -16,151 +24,190 @@ const modalStyle = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-    textAlign: 'center',
+    textAlign: 'center'
 };
 
 const GameContainerPage: React.FC = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [isPaused, setIsPaused] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const gameCanvasRef = useRef<HTMLDivElement>(null);
+    const { t } = useTranslation();
+    const navigate = useNavigate();
 
-  const requestFullscreen = useCallback(() => {
-    const element = gameCanvasRef.current;
-    if (element) {
-      if (element.requestFullscreen) {
-        element.requestFullscreen();
-      } else if ((element as any).mozRequestFullScreen) { /* Firefox */
-        (element as any).mozRequestFullScreen();
-      } else if ((element as any).webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-        (element as any).webkitRequestFullscreen();
-      } else if ((element as any).msRequestFullscreen) { /* IE/Edge */
-        (element as any).msRequestFullscreen();
-      }
-    }
-  }, []);
+    /* ---------- State & Refs ---------- */
+    const [isPaused, setIsPaused] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const exitFullscreen = useCallback(() => {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if ((document as any).mozCancelFullScreen) { /* Firefox */
-      (document as any).mozCancelFullScreen();
-    } else if ((document as any).webkitExitFullscreen) { /* Chrome, Safari and Opera */
-      (document as any).webkitExitFullscreen();
-    } else if ((document as any).msExitFullscreen) { /* IE/Edge */
-      (document as any).msExitFullscreen();
-    }
-  }, []);
+    const gameCanvasRef = useRef<HTMLDivElement>(null);
+    const phaserRef = useRef<PhaserGameHandle>(null);
 
-  const handleFullscreenChange = () => {
-    setIsFullscreen(!!document.fullscreenElement);
-  };
+    const [canvasSize, setCanvasSize] = useState({
+        width: window.innerWidth,
+        height: window.innerHeight
+    });
 
-  useEffect(() => {
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
-  }, []);
+    /* ---------- ResizeObserver ---------- */
+    useEffect(() => {
+        const obs = new ResizeObserver(([entry]) => {
+            setCanvasSize({
+                width: entry.contentRect.width,
+                height: entry.contentRect.height
+            });
+        });
 
-  const handleResumeGame = () => {
-    setIsPaused(false);
-  };
+        if (gameCanvasRef.current) {
+            const { width, height } = gameCanvasRef.current.getBoundingClientRect();
+            setCanvasSize({ width, height });
+            obs.observe(gameCanvasRef.current);
+        }
+        return () => obs.disconnect();
+    }, []);
 
-  const handleQuitGame = () => {
-    if (isFullscreen) {
-      exitFullscreen();
-    }
-    navigate(GAME_START_PATH);
-  };
+    /* ---------- Fullscreen helpers ---------- */
+    const requestFullscreen = useCallback(() => {
+        const el = gameCanvasRef.current;
+        if (!el) return;
+        (el.requestFullscreen ||
+            (el as any).webkitRequestFullscreen ||
+            (el as any).mozRequestFullScreen ||
+            (el as any).msRequestFullscreen)?.call(el);
+    }, []);
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isFullscreen) {
-        setIsPaused(true);
-      }
+    const exitFullscreen = useCallback(() => {
+        if (!document.fullscreenElement) return;
+        (document.exitFullscreen ||
+            (document as any).webkitExitFullscreen ||
+            (document as any).mozCancelFullScreen ||
+            (document as any).msExitFullscreen)?.call(document);
+    }, []);
+
+    /* ---------- ESC + Fullscreen events ---------- */
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' &&
+                document.fullscreenElement === gameCanvasRef.current &&
+                !isPaused) {
+                setIsPaused(true);
+                phaserRef.current?.pause();
+            }
+        };
+        const onFsChange = () =>
+            setIsFullscreen(document.fullscreenElement === gameCanvasRef.current);
+
+        window.addEventListener('keydown', onKeyDown);
+        document.addEventListener('fullscreenchange', onFsChange);
+        document.addEventListener('webkitfullscreenchange', onFsChange);
+        document.addEventListener('mozfullscreenchange', onFsChange);
+        document.addEventListener('MSFullscreenChange', onFsChange);
+
+        return () => {
+            window.removeEventListener('keydown', onKeyDown);
+            document.removeEventListener('fullscreenchange', onFsChange);
+            document.removeEventListener('webkitfullscreenchange', onFsChange);
+            document.removeEventListener('mozfullscreenchange', onFsChange);
+            document.removeEventListener('MSFullscreenChange', onFsChange);
+        };
+    }, [isPaused]);
+
+    /* ---------- Pause / Resume ---------- */
+    const resume = () => {
+        setIsPaused(false);
+        phaserRef.current?.resume();
+        if (isFullscreen && !document.fullscreenElement) requestFullscreen();
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isFullscreen]);
 
-  const gameContent = (
-    <Box
-      ref={gameCanvasRef}
-      sx={{
-        flexGrow: 1,
-        bgcolor: 'black',
-        color: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        cursor: isPaused ? 'default' : 'none'
-      }}
-    >
-      <Typography variant="h2">
-        {t('gameContainerPage.gameAreaTitle', 'Game Area')}
-      </Typography>
-      <Typography variant="body1" sx={{mt: 2}}>
-        {t('gameContainerPage.gameAreaInstructions', 'Your game will be rendered here.')}
-      </Typography>
-      <Typography variant="caption" sx={{mt: 1, color: 'grey.500'}}>
-        {t('gameContainerPage.fullscreenInfo', 'Press ESC to pause.')}
-      </Typography>
-    </Box>
-  );
+    const quit = () => {
+        if (document.fullscreenElement === gameCanvasRef.current) exitFullscreen();
+        navigate(GAME_START_PATH);
+    };
 
-  if (isFullscreen) {
+    /* ---------- Render ---------- */
     return (
-      <>
-        {gameContent}
-        <Modal
-          open={isPaused}
-          onClose={handleResumeGame}
-          aria-labelledby="pause-modal-title"
-          aria-describedby="pause-modal-description"
-        >
-          <Paper sx={modalStyle}>
-            <Typography id="pause-modal-title" variant="h5" component="h2" gutterBottom>
-              {t('gameContainerPage.pauseModal.title', 'Game Paused')}
-            </Typography>
-            <Typography id="pause-modal-description" sx={{mb: 3}}>
-              {t('gameContainerPage.pauseModal.description', 'The game is currently paused. What would you like to do?')}
-            </Typography>
-            <Box sx={{display: 'flex', justifyContent: 'space-around', width: '100%'}}>
-              <Button variant="contained" color="primary" onClick={handleResumeGame} sx={{minWidth: '120px'}}>
-                {t('gameContainerPage.pauseModal.resumeButton', 'Resume')}
-              </Button>
-              <Button variant="outlined" color="secondary" onClick={handleQuitGame} sx={{minWidth: '120px'}}>
-                {t('gameContainerPage.pauseModal.quitButton', 'Quit to Menu')}
-              </Button>
-            </Box>
-          </Paper>
-        </Modal>
-      </>
-    );
-  }
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+            {/* Header */}
+            {!isFullscreen && (
+                <Box sx={{
+                    p: 1, bgcolor: 'primary.main', color: 'primary.contrastText',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                }}>
+                    <Tooltip title={t('gameContainerPage.header.backButton', 'Back to Menu')}>
+                        <IconButton
+                            onClick={() => {
+                                if (isFullscreen) exitFullscreen();
+                                navigate(GAME_START_PATH);
+                            }}
+                            color="inherit"
+                        >
+                            <ArrowBack />
+                        </IconButton>
+                    </Tooltip>
 
-  return (
-    <Layout>
-      <Box sx={{ p: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Tooltip title={t('gameContainerPage.header.backButton', 'Back to Menu')}>
-          <IconButton onClick={handleQuitGame} color="inherit">
-            <ArrowBackIcon />
-          </IconButton>
-        </Tooltip>
-        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center' }}>
-          {t('gameContainerPage.title', 'Play Game')}
-        </Typography>
-        <Tooltip title={t('gameContainerPage.header.enterFullscreenButton', 'Enter Fullscreen')}>
-          <IconButton onClick={requestFullscreen} color="inherit">
-            <FullscreenIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      {gameContent}
-    </Layout>
-  );
+                    <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center' }}>
+                        {t('gameContainerPage.title', 'Play Game')}
+                    </Typography>
+
+                    <Tooltip
+                        title={
+                            isFullscreen
+                                ? t('gameContainerPage.header.exitFullscreenButton', 'Exit Fullscreen')
+                                : t('gameContainerPage.header.enterFullscreenButton', 'Enter Fullscreen')
+                        }
+                    >
+                        <IconButton
+                            onClick={() => isFullscreen ? exitFullscreen() : requestFullscreen()}
+                            color="inherit"
+                        >
+                            {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+            )}
+
+            {/* Game Canvas */}
+            <Box
+                ref={gameCanvasRef}
+                sx={{
+                    flexGrow: 1,
+                    bgcolor: 'black',
+                    overflow: 'hidden',
+                    cursor: isPaused ? 'default' : 'none'
+                }}
+            >
+                <PhaserGame
+                    ref={phaserRef}
+                    width={canvasSize.width}
+                    height={canvasSize.height}
+                />
+            </Box>
+
+            {!isFullscreen && <Footer />}
+
+            {/* Pause Modal */}
+            <Modal
+                open={isPaused}
+                onClose={(_, r) =>
+                    (r === 'backdropClick' || r === 'escapeKeyDown') || resume()
+                }
+            >
+                <Paper sx={modalStyle}>
+                    <Typography variant="h5" gutterBottom>
+                        {t('gameContainerPage.pauseModal.title', 'Game Paused')}
+                    </Typography>
+                    <Typography sx={{ mb: 3 }}>
+                        {t(
+                            'gameContainerPage.pauseModal.description',
+                            'The game is currently paused. What would you like to do?'
+                        )}
+                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                        <Button variant="contained" onClick={resume}>
+                            {t('gameContainerPage.pauseModal.resumeButton', 'Resume')}
+                        </Button>
+                        <Button variant="outlined" color="secondary" onClick={quit}>
+                            {t('gameContainerPage.pauseModal.quitButton', 'Quit to Menu')}
+                        </Button>
+                    </Box>
+                </Paper>
+            </Modal>
+        </Box>
+    );
 };
 
 export default GameContainerPage;
